@@ -76,7 +76,7 @@ class QuickBooks_IPP_IDS
 	
 	const RESOURCE_REPORT_ACCOUNTBALANCES = 'ReportAccountBalances';
 	
-	const RESOURCE_REPORT_BALANCESHEET = 'ReportBalanceSheet';
+	const RESOURCE_REPORT_BALANCESHEET = 'reports/BalanceSheet';
 	
 	const RESOURCE_REPORT_BALANCESHEETSTD = 'ReportBalanceSheetStd';
 	
@@ -84,7 +84,7 @@ class QuickBooks_IPP_IDS
 	
 	const RESOURCE_REPORT_INCOMEBREAKDOWN = 'ReportIncomeBreakdown';
 	
-	const RESOURCE_REPORT_PROFITANDLOSS = 'ReportProfitAndLoss';
+	const RESOURCE_REPORT_PROFITANDLOSS = 'reports/ProfitAndLoss';
 	
 	const RESOURCE_REPORT_SALESSUMMARY = 'ReportSalesSummary';
 	

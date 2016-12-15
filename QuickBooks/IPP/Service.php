@@ -194,6 +194,27 @@ abstract class QuickBooks_IPP_Service
 		
 		return $return;
 	}
+
+
+	/**
+	 * Reports json request
+	 * @param unknown $Context
+	 * @param unknown $realmID
+	 * @param unknown $resource
+	 * @param string $xml
+	 * @author vinay kevadiya
+	 * @return unknown
+	 */
+	protected function _reportJSON($Context, $realmID, $resource, $queryString = '')
+	{
+		$IPP = $Context->IPP();
+
+		$return = $IPP->IDS_JSON($Context, $realmID, $resource, QuickBooks_IPP_IDS::OPTYPE_REPORT, $queryString);
+		$this->_setLastRequestResponse($Context->lastRequest(), $Context->lastResponse());
+		$this->_setLastDebug($Context->lastDebug());
+
+		return $return;
+	}
 	
 	/*
 	protected function _delete($Context, $realmID, $resource, $IDType, $xml = '')

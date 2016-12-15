@@ -1074,7 +1074,9 @@ class QuickBooks_IPP
       {
          $post = true;
          $url = $this->baseURL() . '/company/' . $realm . '/' . strtolower($resource) . '/' . $ID . '/send?requestid=' . $guid . '&minorversion=6';
-      }
+      }else{
+		  $url = $this->baseURL() . '/company/' . $realm . '/' . ($resource) . '';
+	  }
 
 		$response = $this->_request($Context, QuickBooks_IPP::REQUEST_IDS, $url, $optype, $xml, $post);
 
@@ -1127,6 +1129,70 @@ class QuickBooks_IPP
 		
 		// Return the parsed response
 		return $parsed;		
+	}
+
+
+	/**
+	 *
+	 * @param unknown $Context
+	 * @param unknown $realm
+	 * @param unknown $resource
+	 * @param unknown $optype
+	 * @param unknown $xml_or_query
+	 * @param unknown $ID
+	 * @author vinay kevadiya
+	 * @return boolean|string|Ambigous <boolean, QuickBooks_IPP_Object_Report, string, multitype:unknown , multitype:multitype: , unknown>
+	 */
+	protected function _IDS_JSON_v3($Context, $realm, $resource, $optype, $queryString, $ID)
+	{
+		// All v3 URLs have the same baseURL
+		$this->baseURL(QuickBooks_IPP_IDS::URL_V3);
+
+		// If we're in sandbox mode, use the sandbox URL instead
+		if ($this->sandbox()){
+			$this->baseURL(QuickBooks_IPP_IDS::URL_V3_SANDBOX);
+		}
+
+		$post = false;
+
+		$url = $this->baseURL() . '/company/' . $realm . '/' . $resource;
+		if($queryString){
+			$url = $url."?".($queryString);
+		}
+		$response = $this->_request($Context, QuickBooks_IPP::REQUEST_IDS, $url, $optype, '', $post);
+
+		// Check for generic IPP errors and HTTP errors
+		if ($this->_hasErrors($response)){
+			echo $response;
+			return false;
+		}
+
+		$data = $this->_stripHTTPHeaders($response);
+		return json_decode($data, true);
+	}
+
+
+	/**
+	 * IDS for json api call using signed requests
+	 * @param unknown $Context
+	 * @param unknown $realm
+	 * @param unknown $resource
+	 * @param unknown $optype
+	 * @param string $xml
+	 * @param string $ID
+	 * @author vinay kevadiya
+	 * @return Ambigous <boolean, string, QuickBooks_IPP_Object_Report, multitype:unknown , multitype:multitype: , unknown>|boolean
+	 */
+	public function IDS_JSON($Context, $realm, $resource, $optype, $queryString = '', $ID = null)
+	{
+		$IPP = $Context->IPP();
+		switch ($IPP->version())
+		{
+			case QuickBooks_IPP_IDS::VERSION_3:
+				return $this->_IDS_JSON_v3($Context, $realm, $resource, $optype, $queryString, $ID);
+			default:
+				return false;
+		}
 	}
 
 	protected function _IDS_v2($Context, $realmID, $resource, $optype, $xml, $ID)

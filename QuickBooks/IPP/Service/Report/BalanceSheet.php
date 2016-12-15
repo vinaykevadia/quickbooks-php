@@ -21,9 +21,8 @@ QuickBooks_Loader::load('/QuickBooks/IPP/Service/Report.php');
 
 class QuickBooks_IPP_Service_Report_BalanceSheet extends QuickBooks_IPP_Service_Report
 {
-	public function report($Context, $realmID)
+	public function report($Context, $realmID, $queryString)
 	{
-		$xml = null;
-		return parent::_report($Context, $realmID, QuickBooks_IPP_IDS::RESOURCE_REPORT_BALANCESHEET, $xml);
+		return parent::_reportJSON($Context, $realmID, QuickBooks_IPP_IDS::RESOURCE_REPORT_BALANCESHEET, $queryString);
 	}
 }
